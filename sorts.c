@@ -1,4 +1,10 @@
 #include "sorts.h"
+
+void swap(int& a, int& b){
+    int c = a;
+    a = b;
+    b = c;
+}
     
 void bubble_sort(int *ar, int size){
     for (int j = 1; j < size; j++){
@@ -34,25 +40,24 @@ void insertion_sort(int *ar, int size){
 }           
 
 void count_sort(int *ar, int size){
-    int min = 0;
-    int max = 999;
-    int null_ar[max];
-    for (int i = min; i <= max; i++){ 
+    int min = get_min(ar, size);
+    int max = get_max(ar, size);
+    int null_ar[max-min];
+    for (int i = 0; i <= max-min; i++){ 
         null_ar[i] = 0;
-    }       
-            
-    for (int i = 0; i < size; i++){
-        null_ar[ar[i]]++;
     }
     
-    int k = 0;
-    for (int i = min; i <= max; i++){
-        for (int j = k; j < k + null_ar[i]; j++){
-            ar[j] = i;
+    for (int i = 0; i < size; i++){
+        null_ar[ar[i]-min]++;
+    }
+    
+    for (int i = 0, k = 0; i < size; k++) {
+        while(null_ar[k]--){
+            ar[i++] = k+min;
         }
-        k += null_ar[i];
     }
 }
+
     
 void quickSort(int* ar, int size) {
     int left = 0;

@@ -8,20 +8,14 @@ double get_Time(void (*sort)(int*, int), int size){
 	int* ar = new int[size];
 	random_Fill_ar(ar, size);
 
-		
-				//std::chrono::time_point<std::chrono::high_resolution_clock> start;
-				auto start = std::chrono::high_resolution_clock::now();
-	
-				sort(ar, size);
-	
-				//std::chrono::time::time_point<std::chrono::high_resolution_clock> end;
-				auto end = std::chrono::high_resolution_clock::now();
-				std::chrono::duration<double> diff = end - start;
+	auto start = std::chrono::high_resolution_clock::now();
+	sort(ar, size);
+	auto end = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> diff = end - start;
 
 	delete [] ar;
 	return diff.count();
 }
-
 
 int main(){
 	double time;
@@ -31,23 +25,26 @@ int main(){
 	std::cout << "\tbubble_sort\tinsertion_sort\tselection_sort\tcount_sort\tquickSort\tmergeSort\n" << std::endl;
 
 	for (int i = 0; i < 8; i++){
-		for (int s = ar_fronts[i]; s < ar_fronts[i+1]; s+=ar_steps[i]){
-			std::cout << s << "\t";
-			for (int i = 0; i < 6; i++){
-				if (func_ar[i]){
-					std::cout << "----\t";
+		for (int size = ar_fronts[i]; size < ar_fronts[i+1]; size+=ar_steps[i]){
+			std::cout << size << "\t";
+			for (int j = 0; j < 6; j++){
+
+				if (func_ar[j]){
+					std::cout << "-\t";
 					continue;
 				}
-				time = get_Time(sortF[i], s);
-				if (time > 60)
-					func_ar[i] = true;
+
+				time = get_Time(sortF[j], size);
+
+				if (time > 60){
+					func_ar[j] = true;
+				}
 
 				std::cout << time << "\t";
 			}
-		std::cout << std::endl;
+			std::cout << std::endl;
 		}
 	}
-
 
 	return 0;
 }
