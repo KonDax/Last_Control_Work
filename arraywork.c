@@ -23,7 +23,7 @@ int get_min(const int* ar, int size){
 
 
 void random_Fill_ar(int* ar, int size, int min, int max){
-    srand(time(nullptr));
+    srand(clock());
     for (int i = 0; i < size; i++){
         ar[i] = min + rand() % (max - min + 1);
     }

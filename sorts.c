@@ -58,8 +58,36 @@ void count_sort(int *ar, int size){
     }
 }
 
+void quickSort_down(int* ar, int size) {
+    int left = 0;
+    int right = size - 1;
+    int pivot = ar[size >> 1];
+        
+    while(left <= right) {
+        while(ar[left] > pivot) {
+            left++;
+        }
+
+        while (ar[right] < pivot) {
+            right--;
+        }
+
+        if (left <= right) {
+            swap(ar[right], ar[left]);
+            right--;
+            left++;
+        }
+    }
+    if (right > 0) {
+        quickSort_down(&ar[0], right + 1);
+    }
+
+    if (left < size) {
+        quickSort_down(&ar[left], size - left);
+    }
+}
     
-void quickSort(int* ar, int size) {
+void quickSort_up(int* ar, int size) {
     int left = 0;
     int right = size - 1;
     int pivot = ar[size >> 1];
@@ -80,15 +108,15 @@ void quickSort(int* ar, int size) {
         }
     }
     if (right > 0) {
-        quickSort(&ar[0], right + 1);
+        quickSort_up(&ar[0], right + 1);
     }
 
     if (left < size) {
-        quickSort(&ar[left], size - left);
+        quickSort_up(&ar[left], size - left);
     }
 }
 
-void merge(int* ar, int size, int central) {
+void merge_up(int* ar, int size, int central) {
     int left = 0;
     int right = central;
     int* arTemp = new int [size];
@@ -119,13 +147,54 @@ void merge(int* ar, int size, int central) {
     delete [] arTemp;
 }
 
-void mergeSort(int* ar, int size) {
+void mergeSort_up(int* ar, int size) {
     if (size <= 1) {
         return;
     }
-    mergeSort(&ar[0], size >> 1);
-    mergeSort(&ar[size >> 1], size - (size >> 1));
+    mergeSort_up(&ar[0], size >> 1);
+    mergeSort_up(&ar[size >> 1], size - (size >> 1));
 
-    merge(ar, size, size >> 1);
+    merge_up(ar, size, size >> 1);
+}
+
+void merge_down(int* ar, int size, int central) {
+    int left = 0;
+    int right = central;
+    int* arTemp = new int [size];
+    int indexTemp = 0;
+
+    while (left < central && right < size) {
+        while(ar[left] >= ar[right] && left < central) {
+            arTemp[indexTemp++] = ar[left++];
+//            left++;
+//            indexTemp++;
+        }
+        while(ar[left] < ar[right] && right < size) {
+            arTemp[indexTemp] = ar[right];
+            indexTemp++;
+            right++;
+        }
+    }
+
+    while (left < central) {
+        arTemp[indexTemp++] = ar[left++];
+    }
+    while (right < size) {
+        arTemp[indexTemp++] = ar[right++];
+    }
+
+    memcpy(ar, arTemp, size * sizeof(int));
+
+    delete [] arTemp;
 }
                                                                                                             
+void mergeSort_down(int* ar, int size) {
+    if (size <= 1) {
+        return;
+    }
+    mergeSort_down(&ar[0], size >> 1);    
+    mergeSort_down(&ar[size >> 1], size - (size >> 1));
+
+    merge_down(ar, size, size >> 1);
+}
+          

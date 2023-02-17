@@ -2,7 +2,7 @@
 #include <chrono>
 #include <iostream>
 
-void (*sortF[6])(int*, int) = {bubble_sort, insertion_sort, selection_sort, count_sort, quickSort, mergeSort};
+void (*sortF[6])(int*, int) = {bubble_sort, insertion_sort, selection_sort, count_sort, quickSort_up, mergeSort_up};
 
 double get_time(void (*sort)(int*, int), int* ar, int size){
 
@@ -20,19 +20,21 @@ int main(){
 	//additional_task
 	int size = 1000000;
 	int* ar = new int[size];
-	
-	random_Fill_ar(ar, size);
-	std::cout << "Неотсортированный quickSort: " << get_time(quickSort, ar, size) << std::endl;
-	std::cout << "Отсортированный quickSort: " << get_time(quickSort, ar, size) << std::endl; 
-	std::cout << std::endl;
-	
 	random_Fill_ar(ar, size);
 
-	std::cout << "Неотсортированный mergeSort: " << get_time(mergeSort, ar, size) << std::endl;
-	std::cout << "Отсортированный mergeSort: " << get_time(mergeSort, ar, size) << std::endl;
-	
+	std::cout << "По возрастанию quickSort: " << get_time(quickSort_up, ar, size) << std::endl;
+	std::cout << "По возрастанию уже отсортированный quickSort: " << get_time(quickSort_up, ar, size) << std::endl;
+	std::cout << "По убыванию quickSort: " << get_time(quickSort_down, ar, size) << std::endl; 
+	std::cout << std::endl;
+
+	random_Fill_ar(ar, size);
+
+	std::cout << "По возрастанию mergeSort: " << get_time(mergeSort_up, ar, size) << std::endl;
+	std::cout << "По возрастанию уже отсортированный mergeSort: " << get_time(mergeSort_up, ar, size) << std::endl;
+	std::cout << "По убыванию mergeSort: " << get_time(mergeSort_down, ar, size) << std::endl;
+	std::cout << std::endl;
+
 	delete [] ar;
-	return 0;
 
 	//task1
 	double time;
