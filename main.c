@@ -4,20 +4,37 @@
 
 void (*sortF[6])(int*, int) = {bubble_sort, insertion_sort, selection_sort, count_sort, quickSort, mergeSort};
 
-double get_Time(void (*sort)(int*, int), int size){
-	int* ar = new int[size];
-	random_Fill_ar(ar, size);
+double get_time(void (*sort)(int*, int), int* ar, int size){
 
 	auto start = std::chrono::high_resolution_clock::now();
 	sort(ar, size);
 	auto end = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> diff = end - start;
 
-	delete [] ar;
+
 	return diff.count();
 }
 
 int main(){
+
+	//additional_task
+	int size = 1000000;
+	int* ar = new int[size];
+	
+	random_Fill_ar(ar, size);
+	std::cout << "Неотсортированный quickSort: " << get_time(quickSort, ar, size) << std::endl;
+	std::cout << "Отсортированный quickSort: " << get_time(quickSort, ar, size) << std::endl; 
+	std::cout << std::endl;
+	
+	random_Fill_ar(ar, size);
+
+	std::cout << "Неотсортированный mergeSort: " << get_time(mergeSort, ar, size) << std::endl;
+	std::cout << "Отсортированный mergeSort: " << get_time(mergeSort, ar, size) << std::endl;
+	
+	delete [] ar;
+	return 0;
+
+	//task1
 	double time;
 	int ar_steps[7] = {100, 250, 1000, 5000, 10000, 100000, 1000000};
 	int ar_fronts[8] = {100, 500, 1000, 10000, 100000, 200000, 1000000, 10000000};
@@ -34,7 +51,12 @@ int main(){
 					continue;
 				}
 
-				time = get_Time(sortF[j], size);
+				int* ar = new int[size];
+				random_Fill_ar(ar, size);
+
+				time = get_time(sortF[j], ar, size);
+
+				delete [] ar;
 
 				if (time > 60){
 					func_ar[j] = true;
