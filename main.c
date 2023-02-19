@@ -1,22 +1,19 @@
-#include "sorts.h"
 #include <chrono>
 #include <iostream>
+
+#include "sorts.h"
 
 void (*sortF[6])(int*, int) = {bubble_sort, insertion_sort, selection_sort, count_sort, quickSort, mergeSort};
 
 double get_Time(void (*sort)(int*, int), int size){
 	int* ar = new int[size];
 	random_Fill_ar(ar, size);
-
-		
-				//std::chrono::time_point<std::chrono::high_resolution_clock> start;
-				auto start = std::chrono::high_resolution_clock::now();
+	auto start = std::chrono::high_resolution_clock::now(); 	//std::chrono::time_point<std::chrono::high_resolution_clock> start;
 	
-				sort(ar, size);
+	sort(ar, size);
 	
-				//std::chrono::time::time_point<std::chrono::high_resolution_clock> end;
-				auto end = std::chrono::high_resolution_clock::now();
-				std::chrono::duration<double> diff = end - start;
+	auto end = std::chrono::high_resolution_clock::now();		//std::chrono::time::time_point<std::chrono::high_resolution_clock> end;
+	std::chrono::duration<double> diff = end - start;
 
 	delete [] ar;
 	return diff.count();
@@ -28,23 +25,25 @@ int main(){
 	int ar_steps[7] = {100, 250, 1000, 5000, 10000, 100000, 1000000};
 	int ar_fronts[8] = {100, 500, 1000, 10000, 100000, 200000, 1000000, 10000000};
 	bool func_ar[6] = {false, false, false, false, false, false};
-	std::cout << "\tbubble_sort\tinsertion_sort\tselection_sort\tcount_sort\tquickSort\tmergeSort\n" << std::endl;
+	std::cout << "\tbubble_sort\tinsertion_sort\tselection_sort\tcount_sort\tquickSort\tmergeSort" << std::endl;
 
-	for (int i = 0; i < 8; i++){
-		for (int s = ar_fronts[i]; s < ar_fronts[i+1]; s+=ar_steps[i]){
+	for (int i = 0; i < 8; i++) {	внешний цикл i
+		for (int s = ar_fronts[i]; s < ar_fronts[i+1]; s += ar_steps[i]) {	//хорошее решение
 			std::cout << s << "\t";
-			for (int i = 0; i < 6; i++){
+			я бы и то что снизу превратил в функцию.... тогда код читался бы ещё лучше!!!
+			for (int i = 0; i < 6; i++) {	внутренний цикл тоже по i... плохо...
 				if (func_ar[i]){
-					std::cout << "----\t";
+					std::cout << "-\t";
 					continue;
 				}
 				time = get_Time(sortF[i], s);
-				if (time > 60)
+				if (time > 60) {
 					func_ar[i] = true;
+				}
 
 				std::cout << time << "\t";
 			}
-		std::cout << std::endl;
+			std::cout << std::endl;
 		}
 	}
 
