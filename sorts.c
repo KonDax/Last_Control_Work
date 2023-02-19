@@ -35,8 +35,8 @@ void insertion_sort(int *ar, int size){
 
 void count_sort(int *ar, int size){
     int min = 0;
-    int max = 999;
-    int null_ar[max];
+    int max = 999;	-- плохо когда так фиксировано... видел кто-то из одноклассников искал максимальное значение в массиве и выделял соответствующую память .... кажется так было бы более универсально
+    int null_ar[max]; плохое название лучше бы statArray
     for (int i = min; i <= max; i++){ 
         null_ar[i] = 0;
     }       
@@ -46,12 +46,23 @@ void count_sort(int *ar, int size){
     }
     
     int k = 0;
+
+	чему бы не был равенм min массив всё равно начинается с нуля!!!... а вот к нулю можно добавлять уже min... а при добавлении в массив на 45ой строчке вычитать этот min....!!!! поэтому здесь плохое использование памяти!
+
     for (int i = min; i <= max; i++){
         for (int j = k; j < k + null_ar[i]; j++){
             ar[j] = i;
         }
         k += null_ar[i];
     }
+
+	лушче так... но надо протестировать
+	for (int i = 0, k = 0; i < i <= size; i++, k++) {
+		while(null_ar[k]--) {
+			ar[i++] = k;
+		}
+	}
+
 }
     
 void quickSort(int* ar, int size) {

@@ -11,4 +11,4 @@ arraywork.o : arraywork.c
 	g++ -c arraywork.c
 
 clean : 
-	rm - rf *.o a.out
+	rm -rf *.o a.out
